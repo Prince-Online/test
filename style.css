@@ -1,0 +1,36 @@
+  <style>
+  .main .PopularPosts,blog-name container,
+  .page_body .centered>#footer,#comments,
+  header.centered-top-container,
+  .post-title,
+  .post-share-buttons,
+  .bg-photo-container,
+  .bg-photo-overlay,
+    svg-icon-24 search-expand-icon{
+  display:none;
+  }
+    body.item-view .blog-name {
+    margin: 0px;
+}
+    @media screen and (max-width: 800px)
+body.item-view #header, body.item-view .widget.Header {
+    margin-right: 0;
+    display: none;
+}
+    .centered-top-container .svg-icon-24, body.collapsed-header .centered-top-placeholder .svg-icon-24 {
+    fill: #ffffff;
+    display: none;
+}
+    @media screen and (max-width: 800px)
+body.item-view .blog-name {
+    margin: 0px;
+    display: none;
+}
+.Header h1 a, .Header h1 a:hover, .Header h1 a:visited {
+    color: #ffffff;
+    display: none;
+}
+    body.item-view .blog-name {
+    margin: 0px;
+    display: none;
+}
