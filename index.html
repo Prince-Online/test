@@ -1,64 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Recharge Page</title>
     <style>
-        #rechargeForm {
+        #rechargeDiv {
             display: none;
         }
     </style>
 </head>
 <body>
-    <h1>Recharge Balance: <span id="balance">0</span></h1>
+    <h1>Recharge Balance</h1>
+    <p>Current Balance: <span id="balance">0</span></p>
     <button id="rechargeButton">Recharge</button>
 
-    <div id="rechargeForm">
-        <label for="nameInput">Name:</label>
-        <input type="text" id="nameInput"><br>
-        <label for="amountInput">Amount:</label>
-        <input type="number" id="amountInput"><br>
+    <div id="rechargeDiv">
+        <h2>Enter Recharge Code and Amount</h2>
+        <input type="text" id="codeInput" placeholder="Enter Code">
+        <input type="number" id="amountInput" placeholder="Enter Amount">
         <button id="confirmButton">Confirm</button>
     </div>
 
     <script>
-        let balance = parseInt(localStorage.getItem('balance')) || 0;
-        let data = JSON.parse(localStorage.getItem('data')) || [
-            { Name: 'A', Amount: 50 },
-            { Name: 'B', Amount: 30 }
+        const rechargeData = [
+            { code: 21, amount: 50 },
+            // Add more code and amount pairs as needed
         ];
 
-        const balanceElement = document.getElementById('balance');
-        const rechargeButton = document.getElementById('rechargeButton');
-        const rechargeForm = document.getElementById('rechargeForm');
-        const nameInput = document.getElementById('nameInput');
-        const amountInput = document.getElementById('amountInput');
-        const confirmButton = document.getElementById('confirmButton');
+        const balanceElement = document.getElementById("balance");
+        const rechargeButton = document.getElementById("rechargeButton");
+        const rechargeDiv = document.getElementById("rechargeDiv");
+        const codeInput = document.getElementById("codeInput");
+        const amountInput = document.getElementById("amountInput");
+        const confirmButton = document.getElementById("confirmButton");
 
-        balanceElement.textContent = balance;
-
-        rechargeButton.addEventListener('click', () => {
-            rechargeForm.style.display = 'block';
+        rechargeButton.addEventListener("click", () => {
+            rechargeDiv.style.display = "block";
         });
 
-        confirmButton.addEventListener('click', () => {
-            const name = nameInput.value;
-            const amount = parseInt(amountInput.value);
-            const matchIndex = data.findIndex(item => item.Name === name && item.Amount === amount);
+        confirmButton.addEventListener("click", () => {
+            const enteredCode = parseInt(codeInput.value);
+            const enteredAmount = parseInt(amountInput.value);
 
-            if (matchIndex !== -1) {
-                balance += amount;
-                balanceElement.textContent = balance;
-                localStorage.setItem('balance', balance);
+            const rechargeEntryIndex = rechargeData.findIndex(entry => entry.code === enteredCode);
 
-                // Remove the used data entry
-                data.splice(matchIndex, 1);
-                localStorage.setItem('data', JSON.stringify(data));
+            if (rechargeEntryIndex !== -1 && enteredAmount === rechargeData[rechargeEntryIndex].amount) {
+                const currentBalance = parseInt(balanceElement.textContent);
+                const newBalance = currentBalance + enteredAmount;
+                balanceElement.textContent = newBalance;
+                alert("Recharge successful!");
+
+                // Remove the used code and amount from the array
+                rechargeData.splice(rechargeEntryIndex, 1);
+
+                // Clear the input fields
+                codeInput.value = '';
+                amountInput.value = '';
+
+                rechargeDiv.style.display = "none";
             } else {
-                alert("Invalid name or amount. Please try again.");
+                alert("Invalid code or amount. Please try again.");
             }
-
-            nameInput.value = '';
-            amountInput.value = '';
-            rechargeForm.style.display = 'none';
         });
     </script>
 </body>
